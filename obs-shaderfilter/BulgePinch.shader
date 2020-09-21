@@ -1,3 +1,4 @@
+//Created by Radegast Stravinsky for obs-shaderfilter 9/2020
 uniform float radius = 0.0;
 uniform float magnitude = 0.0;
 uniform float center_x = 0.25;

@@ -1,3 +1,4 @@
+//Created by Radegast Stravinsky for obs-shaderfilter 9/2020
 uniform float radius = 0.0;
 uniform float angle = 180.0;
 uniform float period = 0.5;

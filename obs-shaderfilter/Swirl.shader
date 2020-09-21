@@ -1,4 +1,4 @@
-
+//Created by Radegast Stravinsky for obs-shaderfilter 9/2020
 uniform float radius = 0.5; //<Range(0.0, 1.0)>
 uniform float angle = 270.0; //<Range(-1800.0, 1800.0)>
 
@@ -12,7 +12,6 @@ uniform string notes = "Distorts the screen, twisting the image in a circular mo
 
 float4 mainImage(VertData v_in) : TARGET
 {
-    
     float2 center = float2(center_x, center_y);
 	VertData v_out;
     v_out.pos = v_in.pos;
