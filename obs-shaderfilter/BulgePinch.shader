@@ -4,6 +4,10 @@ uniform float center_x = 0.25;
 uniform float center_y = 0.25;
 uniform bool animate = false;
 
+
+uniform string notes = "Distorts the screen, expanding or drawing in pixels around a point."
+
+
 float4 mainImage(VertData v_in) : TARGET 
 {
     float2 center = float2(center_x, center_y);
@@ -13,14 +17,9 @@ float4 mainImage(VertData v_in) : TARGET
     float ar = 1. * hw.y/hw.x;
     v_out.uv = 1. * v_in.uv - center;
 
-     if(ar > 1.0){
-         center.x *= ar;
-         v_out.uv.x *= ar;
-     }
-     else if (ar < 1.0){
-         center.x /= ar;
-         v_out.uv.x /= ar;
-     }
+    center.x /= ar;
+    v_out.uv.x /= ar;
+
     float dist = distance(v_out.uv, center);
     if (dist < radius)
     {
@@ -32,11 +31,7 @@ float4 mainImage(VertData v_in) : TARGET
             v_out.uv = (v_out.uv-center) * lerp(1.0, pow(percent, 1.0 + anim_mag * 0.75) * radius/dist, 1.0 - percent);
 
         v_out.uv += (2 * center);
-
-         if(ar > 1.0)
-             v_out.uv.x /= ar;
-         else if(ar < 1.0)
-             v_out.uv.x *= ar;
+        v_out.uv.x *= ar;
 
         return image.Sample(textureSampler, v_out.uv);
     }

@@ -20,14 +20,9 @@ float4 mainImage(VertData v_in) : TARGET
     float ar = 1. * hw.y/hw.x;
 
     v_out.uv = 1. * v_in.uv - center;
-     if(ar > 1.0){
-         center.x *= ar;
-         v_out.uv.x *= ar;
-     }
-     else if (ar < 1.0){
-         center.x /= ar;
-         v_out.uv.x /= ar;
-     }
+    
+    center.x /= ar;
+    v_out.uv.x /= ar;
     
     float dist = distance(v_out.uv, center);
     if (dist < radius)
@@ -41,10 +36,7 @@ float4 mainImage(VertData v_in) : TARGET
         v_out.uv = float2(dot(v_out.uv-center, float2(c,-s)), dot(v_out.uv-center, float2(s,c)));
         v_out.uv += (2 * center);
         
-         if(ar > 1.0)
-             v_out.uv.x /= ar;
-         else if(ar < 1.0)
-             v_out.uv.x *= ar;
+        v_out.uv.x *= ar;
 
         return image.Sample(textureSampler, v_out.uv);
     }

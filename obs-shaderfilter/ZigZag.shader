@@ -10,16 +10,22 @@ uniform float phase = 1.0;
 uniform int animate = 0;
 
 
+uniform string notes = "Distorts the screen, creating a rippling effect that moves clockwise and anticlockwise."
+
+
 float4 mainImage(VertData v_in) : TARGET
 {
     float2 center = float2(center_x, center_y);
 	VertData v_out;
     v_out.pos = v_in.pos;
     float2 hw = uv_size;
-    const float ar = 1.0 * (float)hw.x/(float)hw.y;
-    v_out.uv = v_in.uv * uv_scale  + uv_offset  - center;
+    float ar = 1. * hw.y/hw.x;
 
-
+    v_out.uv = 1. * v_in.uv - center;
+    
+    center.x /= ar;
+    v_out.uv.x /= ar;
+    
     float dist = distance(v_out.uv, center);
     if (dist < radius)
     {
@@ -40,8 +46,9 @@ float4 mainImage(VertData v_in) : TARGET
         float s =  sin(theta);
         float c = cos(theta);
         v_out.uv = float2(dot(v_out.uv-center, float2(c,-s)), dot(v_out.uv-center, float2(s,c)));
-
-        v_out.uv += (2.0*center);
+        v_out.uv += (2 * center);
+        
+        v_out.uv.x *= ar;
 
         return image.Sample(textureSampler, v_out.uv);
     }
