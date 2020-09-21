@@ -17,15 +17,15 @@ float4 mainImage(VertData v_in) : TARGET
 	VertData v_out;
     v_out.pos = v_in.pos;
     float2 hw = uv_size;
-    float ar = 1. * (float)hw.y/(float)hw.x;
+    float ar = 1. * hw.y/hw.x;
 
     v_out.uv = 1. * v_in.uv - center;
      if(ar > 1.0){
-         center.x *= (float)ar;
-         v_out.uv.x *= (float)ar;
+         center.x *= ar;
+         v_out.uv.x *= ar;
      }
      else if (ar < 1.0){
-         center.x /= (float)ar;
+         center.x /= ar;
          v_out.uv.x /= ar;
      }
     
@@ -39,15 +39,13 @@ float4 mainImage(VertData v_in) : TARGET
         float s =  sin(theta);
         float c =  cos(theta);
         v_out.uv = float2(dot(v_out.uv-center, float2(c,-s)), dot(v_out.uv-center, float2(s,c)));
-        v_out.uv +=   (2 * center);
+        v_out.uv += (2 * center);
         
          if(ar > 1.0)
-             v_out.uv.x /= (float)ar;
+             v_out.uv.x /= ar;
          else if(ar < 1.0)
-             v_out.uv.x *= (float)ar;
+             v_out.uv.x *= ar;
 
-    
-        
         return image.Sample(textureSampler, v_out.uv);
     }
     else
